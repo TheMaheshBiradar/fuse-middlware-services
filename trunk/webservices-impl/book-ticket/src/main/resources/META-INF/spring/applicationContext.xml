@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:cxf="http://camel.apache.org/schema/cxf"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf-2.8.3.xsd">
+
+
+	<!-- Interceptor declaration start -->
+	<bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+	<bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+
+	<!-- End point declaration Starts -->
+	<cxf:cxfEndpoint id="bookTicketServiceCall"
+		address="http://10.224.202.86:8181/bookTicketWithServiceMix/services/BookTicketImplPort"
+		wsdlURL="wsdl/bookticket.wsdl" xmlns:ns="http://service.poc.venkat.com/"
+		endpointName="ns:BookTicketImplPort" serviceName="ns:BookTicketImplService"
+		serviceClass="com.venkat.poc.service.BookTicket">
+
+		<cxf:inInterceptors>
+			<ref bean="loggingInInterceptor" />
+		</cxf:inInterceptors>
+		<cxf:outInterceptors>
+			<ref bean="loggingOutInterceptor" />
+		</cxf:outInterceptors>
+
+		<cxf:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</cxf:features>
+	</cxf:cxfEndpoint>
+
+
+	<!-- Bean Declarations starts -->
+	<bean id="bookProcessBean" class="com.venkat.poc.service.beans.BookTicketBean" />
+	<bean id="bookTicketImpl" class="com.venkat.poc.service.impl.BookTicketImpl">
+
+	</bean>
+
+	<camelContext id="camelId" xmlns="http://camel.apache.org/schema/spring">
+		
+
+		<camel:route id="bookTicket">
+			<camel:from uri="cxf:bean:bookTicketServiceCall" />
+			<camel:to uri="cxf:bean:bookTicketImpl" />
+			<log
+				message="SOAP message response : ${body} and operation type : ${in.header.SOAPAction}" />
+
+		</camel:route>
+
+	</camelContext>
+
+
+	
+
+</beans>
