@@ -7,7 +7,7 @@
   <version>1.0.0</version>
   <packaging>jar</packaging>
 
-  <name>webservice-feature</name>
+  <name>Web Services Deployment</name>
   <url>http://maven.apache.org</url>
 
   <properties>
