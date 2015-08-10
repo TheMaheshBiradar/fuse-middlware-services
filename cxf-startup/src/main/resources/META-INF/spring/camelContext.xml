@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+
+  <cxf:rsServer id="cardServiceEndpoint" address="/" serviceClass="com.taggy.services.cxfstartup.CardServiceImpl" />
+  
+  <bean id="cardProcessor"  class="com.taggy.services.cxfstartup.CardProcessor"/>
+  
+  <camelContext trace="false" id="blueprintContext" xmlns="http://camel.apache.org/schema/spring">
+    <route id="cxfRoute">
+        <from uri="cxfrs:bean:cardServiceEndpoint"/>
+        <log message="${header.operationName}"/>
+        <recipientList>
+            <simple>direct:${header.operationName}</simple>
+        </recipientList>
+        
+          <marshal>
+            <json library="Jackson" prettyPrint="true"/>
+        </marshal>
+    </route>
+    
+    <route id="cxfRouteRoute">
+        <from uri="direct:checkCardStatus"/>
+        <log message="inside cxfRoute route"/>
+         <bean method="process" ref="cardProcessor"/>
+    </route>
+    
+</camelContext>
+</beans>
