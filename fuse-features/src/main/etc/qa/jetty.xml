@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//
+DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+
+<Configure class="org.eclipse.jetty.server.Server">
+
+    <!-- =========================================================== -->
+    <!-- Set connectors                                              -->
+    <!-- =========================================================== -->
+    <!-- One of each type!                                           -->
+    <!-- =========================================================== -->
+
+    <!-- Use this connector for many frequently idle connections
+         and for threadless continuations.
+    -->
+     <Call name="addConnector">
+        <Arg>
+            <!-- The SslSelectChannelConnector class uses the Java NIO SslEngine -->
+            <New class="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
+                <Arg>
+                    <New class="org.eclipse.jetty.http.ssl.SslContextFactory">
+                        <!-- Protect against the POODLE security vulnerability -->
+                        <Set name="ExcludeProtocols">
+                            <Array type="java.lang.String">
+                                <Item>SSLv3</Item>
+                            </Array>
+                        </Set>
+                        <Set name="keyStore">etc/jbossfuse-dev.jks</Set>
+                        <Set name="keyStorePassword">password</Set>
+                        <Set name="keyManagerPassword">password</Set>
+                    </New>
+                </Arg>
+                <Set name="port">9443</Set>
+                <Set name="maxIdleTime">30000</Set>
+            </New>
+        </Arg>
+    </Call>
+
+    <Call name="addBean">
+        <Arg>
+            <New class="org.eclipse.jetty.plus.jaas.JAASLoginService">
+                <Set name="name">karaf</Set>
+                <Set name="loginModuleName">karaf</Set>
+                <Set name="roleClassNames">
+                    <Array type="java.lang.String">
+                        <Item>org.apache.karaf.jaas.boot.principal.RolePrincipal</Item>
+                    </Array>
+                </Set>
+            </New>
+        </Arg>
+    </Call>
+</Configure>
