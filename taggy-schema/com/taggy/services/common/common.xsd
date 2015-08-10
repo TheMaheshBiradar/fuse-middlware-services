@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://com/taggy/services/common/v1.0"
+	xmlns:tns="http://com/taggy/services/common/v1.0" elementFormDefault="qualified">
+
+    <complexType name="faultMessage">
+    	<sequence>
+    		<element name="faultCode" type="string" />
+    		<element name="faultMessage" type="string"/>
+    		<element name="severity" type="string" minOccurs="0"/>
+    	</sequence>
+    </complexType>
+</schema>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://com/taggy/services/employeeservice/v1.0"
+	xmlns:tns="http://com/taggy/services/employeeservice/v1.0" xmlns:cm="http://com/taggy/services/common/v1.0"
+	xmlns:emp="http://com/taggy/services/employee/v1.0" elementFormDefault="qualified">
+
+	<import namespace="http://com/taggy/services/common/v1.0"
+		schemaLocation="../../../common/common.xsd" />
+	<import namespace="http://com/taggy/services/employee/v1.0"
+		schemaLocation="../../../common/employee.xsd" />
+
+
+	<element name="createEmployeeRequest" type="tns:createEmployeeRequest" />
+	<element name="createEmployeeResponse" type="tns:createEmployeeResponse" />
+	
+	<complexType name="createEmployeeRequest">
+		<sequence>
+			<element name="employeeDetail" type="emp:EmployeeType"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="createEmployeeResponse">
+		<sequence>
+			<element name="reponseCode" type="string"></element>
+			<element name="reponseMessage" type="string"></element>
+		</sequence>
+	</complexType>
+</schema>

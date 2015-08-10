@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://com/taggy/services/employee/v1.0"
+	xmlns:tns="http://com/taggy/services/employee/v1.0" elementFormDefault="qualified">
+
+
+	<complexType name="EmployeeType">
+		<sequence>
+			<element name="employeeId" type="string" />
+			<element name="password" type="string" />
+			<element name="designation" type="string" />
+		</sequence>
+		<attribute name="type">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="PERMANENT" />
+					<enumeration value="CONTRACTOR" />
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+</schema>
