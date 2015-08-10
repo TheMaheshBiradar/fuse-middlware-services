@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<features>
-    <feature name="servicemix-core">
-        <bundle>mvn:org.apache.servicemix.examples/cxf-osgi/4.4.2</bundle>
-         <bundle>mvn:com.taggy.services/book-ticket/1.0.0-SNAPSHOT</bundle>
-    </feature>
-</features>
